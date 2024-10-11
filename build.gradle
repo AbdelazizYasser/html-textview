@@ -1,10 +1,10 @@
 buildscript {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         mavenLocal()
         maven { setUrl("https://jitpack.io") }
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.5.1'
@@ -15,11 +15,11 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         gradlePluginPortal()
         mavenLocal()
         // for in-app messaging
         maven { setUrl("https://jitpack.io") }
+        jcenter()
     }
 }
