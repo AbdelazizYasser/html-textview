@@ -1,15 +1,51 @@
 apply plugin: 'com.android.library'
-apply plugin: 'bintray-release'
-
+//apply plugin: 'bintray-release'
+apply plugin: 'maven-publish'
 android {
-    compileSdkVersion 29
+    compileSdkVersion 34
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 29
+        minSdkVersion 21
+        targetSdkVersion 34
         versionName '4.0'
     }
+    namespace = "org.sufficientlysecure.htmltextview"
 }
+android.libraryVariants.all {
+    def aptOutputDir = new File(buildDir, "generated/source/apt/${it.unitTestVariant.dirName}")
+    it.unitTestVariant.addJavaSourceFoldersToModel(aptOutputDir)
+}
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.jniLibs.srcDirs
+    archiveClassifier = "sources"
+}
+
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set("sources")
+    from android.sourceSets.main.java.sourceFiles
+}
+afterEvaluate {
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                //from components.release
+                version = android.defaultConfig.versionName
+                artifactId = "html-textview"
+                groupId = "org.sufficientlysecure"
+            }
+        }
+        repositories {
+            maven {
+                def releasesUrl = "releaseurl_ifavailable"
+                def snapshotsUrl = "snapshoturl_ifavailable"
+                url = "https://github.com/SufficientlySecure/html-textview"
+            }
+        }
+    }
+}
+
+/*
 
 publish {
     userOrg = 'sufficientlysecure'
@@ -19,8 +55,11 @@ publish {
     website = 'https://github.com/SufficientlySecure/html-textview'
     desc = 'HtmlTextView is an extended TextView component for Android, which can load HTML and converts it into Spannable for displaying it.'
 }
+*/
 
 dependencies {
-    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.annotation:annotation:1.8.2'
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
 
- }
+
+}

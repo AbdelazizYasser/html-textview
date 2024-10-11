@@ -2,10 +2,13 @@ buildscript {
     repositories {
         google()
         jcenter()
+        mavenCentral()
+        mavenLocal()
+        maven { setUrl("https://jitpack.io") }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.1'
-        classpath 'com.novoda:bintray-release:0.9.1'
+        classpath 'com.android.tools.build:gradle:8.5.1'
+        //classpath 'com.novoda:bintray-release:0.9.1'
     }
 }
 
@@ -13,5 +16,10 @@ allprojects {
     repositories {
         google()
         jcenter()
+        mavenCentral()
+        gradlePluginPortal()
+        mavenLocal()
+        // for in-app messaging
+        maven { setUrl("https://jitpack.io") }
     }
 }
